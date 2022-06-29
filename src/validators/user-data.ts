@@ -2,7 +2,7 @@ import { NameValidator, EmailValidator, BirthDateValidator, CPFValidator } from 
 import { User } from '../models';
 
 export class UserDataValidator {
-  public User: Partial<User>;
+  public user: Partial<User>;
   public errors: string;
 
   private nameValidator = NameValidator;
@@ -12,7 +12,7 @@ export class UserDataValidator {
 
   public constructor(User: User) {
     this.errors = '';
-    this.User = this.validator(User);
+    this.user = this.validator(User);
   };
 
   private validator(User: User): Partial<User> {
