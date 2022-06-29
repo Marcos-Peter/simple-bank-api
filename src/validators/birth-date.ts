@@ -4,10 +4,10 @@ export class BirthDateValidator {
 
   public constructor(birthDate: string) {
     this.errors = '';
-    this.birthDate = this.validation(birthDate);
-  }
+    this.birthDate = this.validator(birthDate);
+  };
 
-  private validation(birthDate: string): string {
+  private validator(birthDate: string): string {
     if(!birthDate) {
       this.errors += '[Birth Date]: Birth Date is required';
       return '';

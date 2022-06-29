@@ -1,4 +1,4 @@
-class AgencyValidator {
+export class AgencyValidator {
   public agency: string;
   public errors: string;
 

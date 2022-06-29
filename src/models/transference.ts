@@ -1,6 +1,6 @@
 export interface Transference {
   id: string
-  cpf: string
+  originCPF: string
   originPassword: string
   originAgency: string
   originAgencyDigit: string
