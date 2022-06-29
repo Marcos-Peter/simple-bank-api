@@ -10,16 +10,16 @@ export class EmailValidator {
   };
 
   private validator(email:string): string {
-      if(email.length === 0) {
-          this.errors += '[Email]: Email is required.|';
-          return '';
-      };
+    if(email.length === 0) {
+      this.errors += '[Email]: Email is required.|';
+      return '';
+    };
 
-      if(!this.regex.test(email)) {
-          this.errors += '[Email]: Invalid Email.|';
-          return '';
-      };
+    if(!this.regex.test(email)) {
+      this.errors += '[Email]: Invalid Email.|';
+      return '';
+    };
 
-      return email.trim();
+    return email.trim();
   };
 };

@@ -21,7 +21,7 @@ export class AccountValidator {
     if(!account.trim) {
       this.errors += '[Account]: Account cannot be null|';
       return '';
-    }
+    };
 
     return account.trim();
   };

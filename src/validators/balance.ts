@@ -1,4 +1,4 @@
-class BalanceValidator {
+export class BalanceValidator {
   public balance: string;
   public errors: string;
 
