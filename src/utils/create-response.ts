@@ -13,7 +13,7 @@ export class CreateResponse {
     } else {
       res.status(500).json({
         data: {},
-        messages: ["[Srever]: Internal server error"]
+        messages: ["[Server]: Internal server error"]
       } as APIResponse);
     };
   };

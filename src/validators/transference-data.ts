@@ -42,7 +42,7 @@ export class TransferenceDataValidator {
       originAgencyDigit: validOriginAgencyDigit.agencyDigit,
       originAccount: validOriginAccount.account,
       originAccountDigit: validOriginAccountDigit.accountDigit,
-      destinyCpf: validDestinyCpf.cpf,
+      destinyCPF: validDestinyCpf.cpf,
       destinyAgency: validDestinyAgency.agency,
       destinyAgencyDigit: validDestinyAgencyDigit.agencyDigit,
       destinyAccount: validDestinyAccount.account,

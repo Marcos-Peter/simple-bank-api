@@ -1,12 +1,12 @@
 import { APIResponse, Extract } from '../models';
 import { ExtractDataValidator } from '../validators';
 import { ExceptionsTreatment } from "../utils";
-import { CheckExtract } from '../client/dao/postgres/extract';
+import { VerifyExtract } from '../client/dao/postgres/extract';
 
 
 export class VerifyExtractService {
   private extractDataValidator = ExtractDataValidator;
-  private extractTable = CheckExtract;
+  private extractTable = VerifyExtract;
 
   public async execute(extract: Extract): Promise<APIResponse> {
     try {
