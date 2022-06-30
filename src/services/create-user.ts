@@ -1,9 +1,9 @@
 import { APIResponse, User, Account } from '../models';
 import { UserDataValidator } from '../validators';
 import { ExceptionsTreatment } from "../utils";
-import { UserTable } from '../client/dao/postgres/owner_and_account';
+import { UserTable } from '../client/dao/postgres/user-account';
 import { AccountTable } from '../client/dao/postgres/account';
-import { SearchOwner } from '../client/dao/postgres/search_owner';
+import { SearchUser } from '../client/dao/postgres/search-user';
 import { CreateAccount } from '../utils';
 import { v4 } from 'uuid';
 
@@ -25,7 +25,7 @@ export class CreateUserService {
       };
 
       validUserData.user.id = v4();
-      const searchOwner = await SearchOwner(user.cpf);
+      const searchOwner = await SearchUser(user.cpf);
       console.log(searchOwner);
 
       if(!searchOwner) {

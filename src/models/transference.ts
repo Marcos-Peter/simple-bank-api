@@ -6,7 +6,7 @@ export interface Transference {
   originAgencyDigit: string
   originAccount: string
   originAccountDigit: string
-  destinyCpf: string
+  destinyCPF: string
   destinyAgency: string
   destinyAgencyDigit: string
   destinyAccount: string
