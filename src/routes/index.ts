@@ -1,4 +1,4 @@
-import Owner from './owner';
+import User from './user';
 import Account from './account';
 import Balance from './balance';
 import Deposit from './deposit';
@@ -7,17 +7,16 @@ import Withdraw from './withdraw';
 import Extract from './extract';
 import Transfer from './transfer';
 
-const app = express();
+const server = express();
 
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+server.use(express.urlencoded({ extended: false }));
+server.use(express.json());
+server.use(User);
+server.use(Account);
+server.use(Balance);
+server.use(Deposit);
+server.use(Withdraw);
+server.use(Extract);
+server.use(Transfer);
 
-app.use(Owner);
-app.use(Account);
-app.use(Balance);
-app.use(Deposit);
-app.use(Withdraw); 
-app.use(Extract); 
-app.use(Transfer);
-
-export default app;
+export default server;
