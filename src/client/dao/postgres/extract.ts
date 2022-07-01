@@ -4,11 +4,11 @@ dotenv.config();
 const { Client } = require('pg');
 
 export async function VerifyExtract(cpf: string, password:string, agency: string, agency_digit: string, account: string, account_digit:string) {
-  const clientSelect = new Client();
+  const client = new Client();
 
   try {
     console.log('search');
-    await clientSelect.connect();
+    await client.connect();
     console.log('conectado ao banco');
 
     const selectBalanceQuery = `
@@ -22,7 +22,7 @@ export async function VerifyExtract(cpf: string, password:string, agency: string
         account_digit=$6
     `;
 
-    const check = await clientSelect.query(selectBalanceQuery, [cpf, password, agency, agency_digit, account, account_digit]);
+    const check = await client.query(selectBalanceQuery, [cpf, password, agency, agency_digit, account, account_digit]);
     let id = check.rows[0].id;
     console.log(id)
 
@@ -32,11 +32,11 @@ export async function VerifyExtract(cpf: string, password:string, agency: string
         account_id=$1
     `;
 
-    const check2 = await clientSelect.query(selectExtractQuery, [id]);
+    const check2 = await client.query(selectExtractQuery, [id]);
     let extract = check2.rows;
     console.log(check2.rows);
     console.log(extract, 'aqui');
-    await clientSelect.end();
+    await client.end();
 
     if (check.rows.length !== 0) {
         return extract;
@@ -45,7 +45,7 @@ export async function VerifyExtract(cpf: string, password:string, agency: string
 
     return false;
   } catch (error) {
-      await clientSelect.end();
+      await client.end();
       return false;
   };
 };

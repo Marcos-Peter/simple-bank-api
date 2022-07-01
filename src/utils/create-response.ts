@@ -11,9 +11,10 @@ export class CreateResponse {
         messages: messages.split("|").filter((message: string) => message !== "")
       } as APIResponse);
     } else {
+      console.log("create-response utils");
       res.status(500).json({
         data: {},
-        messages: ["[Srever]: Internal server error"]
+        messages: ["[Server]: Internal server error"]
       } as APIResponse);
     };
   };

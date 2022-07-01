@@ -9,11 +9,14 @@ export class BirthDateValidator {
 
   private validator(birthDate: string): string {
     if(!birthDate) {
+      console.log('birthdate validator');
       this.errors += '[Birth Date]: Birth Date is required';
       return '';
     };
 
     if(!new Date(birthDate).getTime()) {
+      console.log('birthdate validator');
+
       this.errors += '[Birth Date]: Birth Date is not valid';
       return '';
     };
