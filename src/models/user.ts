@@ -4,4 +4,5 @@ export interface User {
   cpf: string
   email: string
   birthDate: string
+  password: string
 };

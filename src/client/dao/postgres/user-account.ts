@@ -1,5 +1,6 @@
 import { PostgresDB } from ".";
 import { User, Account } from "../../../models";
+import { config } from "../../../config";
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -7,39 +8,44 @@ const { Client } = require('pg');
 
 export class UserTable extends PostgresDB {
   public async insert (user: User, account: Account): Promise<boolean>{
-    const client = new Client();
+    const client = new Client(config.POSTGRES);
 
     try {
+      console.log("try");
       await client.connect();
-      console.log('conectado ao banco');
+      console.log('Connected to postgres');
 
       const insertUserQuery = `
         INSERT INTO public.users
-          (id, cpf, name, email, birthDate)
+          (id, name, email, cpf, birthdate, password)
         VALUES
-          ( $1, $2, $3, $4, $5 ) RETURNING id
+          ($1, $2, $3, $4, $5, $6) RETURNING id
       `;
+
+      console.log(user);
 
       const result = await client.query(insertUserQuery, [
         user.id,
-        user.cpf,
         user.name,
         user.email,
-        user.birthDate
+        user.cpf,
+        user.birthDate,
+        user.password
       ]);
 
       if (result.rows.length !== 0) {
         const insertAccountQuery = `
           INSERT INTO public.accounts
-            (id, cpf, password, agency, agency_digit, account, account_digit, balance)
+            (id, userId, account, account_digit, agency, agency_digit, balance)
           VALUES
-            ( $1, $2, $3, $4, $5, $6, $7, $8 ) RETURNING id
-        `;
+            ( $1, $2, $3, $4, $5, $6, $7 ) RETURNING id
+          `;
+
+        console.log(account);
 
         const result = await client.query(insertAccountQuery, [
           account.id,
-          account.cpf,
-          account.password,
+          user.cpf,
           account.agency,
           account.agencyDigit,
           account.account,
@@ -55,11 +61,11 @@ export class UserTable extends PostgresDB {
 
         return false;
       };
-
       return false;
     } catch (error) {
+      console.log(error);
       await client.end();
-      throw new Error("503: service temporarily unavailable");
+      throw new Error("503: Service temporarily unavailable");
     };
   };
 };

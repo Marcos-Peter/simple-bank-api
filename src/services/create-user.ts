@@ -6,6 +6,7 @@ import { AccountTable } from '../client/dao/postgres/account';
 import { SearchUser } from '../client/dao/postgres/search-user';
 import { CreateAccount } from '../utils';
 import { v4 } from 'uuid';
+import { RandomPassword } from '../utils/generate-password';
 
 export class CreateUserService {
   private createAccount = CreateAccount;
@@ -25,20 +26,21 @@ export class CreateUserService {
       };
 
       validUserData.user.id = v4();
-      const searchOwner = await SearchUser(user.cpf);
-      console.log(searchOwner);
+      validUserData.user.password = new RandomPassword(8).generate();
+      const searchUser = await SearchUser(user.cpf);
+      console.log(searchUser);
 
-      if(!searchOwner) {
-        console.log('insertOwner');
+      if(!searchUser) {
+        console.log('insertUser');
         insertUser = await new this.userTable().insert(validUserData.user as User, newAccount as unknown as Account);
       } else {
         insertUser = await new this.accountTable().insert(newAccount as unknown as Account);
-        validUserData.user.id = searchOwner;
+        validUserData.user.id = searchUser;
       };
 
       if(insertUser) {
         return {
-          data: {owner: validUserData.user,
+          data: {user: validUserData.user,
           account: newAccount},
           messages: []
         } as APIResponse;
@@ -46,13 +48,13 @@ export class CreateUserService {
 
       return {
         data: {},
-        messages: [ "an error occurred while creating the owner" ]
+        messages: [ "[User]: An error occurred while creating the user" ]
       } as APIResponse;
     } catch(error) {
       throw new ExceptionsTreatment(
         error as Error,
         500,
-        "an error occurred while inserting owner on database"
+        "[User]: An error occurred while inserting user on database"
       );
     };
   };

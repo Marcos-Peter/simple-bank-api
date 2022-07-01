@@ -12,7 +12,7 @@ export class DepositTable extends PostgresDB {
 
     try {
       await client.connect();
-      console.log('conectado ao banco');
+      console.log('Connected to postgres');
       const selectBalanceQuery = `
         SELECT * FROM public.accounts
         WHERE

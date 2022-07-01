@@ -6,7 +6,6 @@ export class CreateAccountService {
   private accountDataValidator = AccountDataValidator;
 
   public execute(account: Account): APIResponse {
-
     const validAccountData = new this.accountDataValidator(account);
 
     if(validAccountData.errors) {
