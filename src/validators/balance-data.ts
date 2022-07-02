@@ -2,8 +2,8 @@ import { AccountDigitValidator, AccountValidator, AgencyDigitValidator, AgencyVa
 import { Balance } from '../models';
 
 export class BalanceDataValidator {
-  public balance: Balance;
   public errors: string;
+  public balance: Balance;
 
   private accountValidator = AccountValidator;
   private accountDigitValidator = AccountDigitValidator;

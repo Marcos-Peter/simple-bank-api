@@ -10,6 +10,7 @@ export class CreateDepositService {
 
   public async execute(deposit: Deposit): Promise<APIResponse> {
     try {
+      console.log("create-deposit-service")
       const validDepositData = new this.depositDataValidator(deposit);
 
       if(validDepositData.errors) {

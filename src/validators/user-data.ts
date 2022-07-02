@@ -2,8 +2,8 @@ import { NameValidator, EmailValidator, BirthDateValidator, CPFValidator } from 
 import { User } from '../models';
 
 export class UserDataValidator {
-  public user: Partial<User>;
   public errors: string;
+  public user: Partial<User>;
 
   private nameValidator = NameValidator;
   private emailValidator = EmailValidator;

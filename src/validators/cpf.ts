@@ -5,11 +5,12 @@ export class CPFValidator {
   public errors: string;
 
   public constructor(cpf: string) {
-    this.cpf = this.validator(cpf);
     this.errors = '';
+    this.cpf = this.validator(cpf);
   };
 
   private validator(cpf: string): string {
+    console.log("CPFValidator");
     cpf = cpf.replace(/[^\d]+/g, '');
 
     if(cpf.length === 0) {

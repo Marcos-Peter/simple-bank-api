@@ -2,8 +2,8 @@ import { AccountDigitValidator, AccountValidator, AgencyDigitValidator, AgencyVa
 import { Transference } from '../models';
 
 export class TransferenceDataValidator {
-  public transference: Partial<Transference>;
   public errors: string;
+  public transference: Partial<Transference>;
 
   private cpfValidator = CPFValidator;
   private passwordValidator = PasswordValidator;

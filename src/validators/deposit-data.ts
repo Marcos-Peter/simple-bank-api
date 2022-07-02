@@ -13,29 +13,32 @@ export class DepositDataValidator {
   private valueValidator = ValueValidator;
 
   public constructor(deposit: Deposit) {
-    this.deposit = this.validator(deposit);
     this.errors = '';
+    this.deposit = this.validator(deposit);
   };
 
   private validator(deposit: Deposit): Partial<Deposit> {
-    const validAccount = new this.accountValidator(deposit.account);
+    console.log("DepositDataValidator");
     const validCpf = new this.cpfValidator(deposit.cpf);
-    const validValue = new this.valueValidator(deposit.value);
-    const validAccountDigit = new this.accountDigitValidator(deposit.accountDigit);
     const validAgency = new this.agencyValidator(deposit.agency);
     const validAgencyDigit = new this.agencyDigitValidator(deposit.agencyDigit);
+    const validAccount = new this.accountValidator(deposit.account);
+    const validAccountDigit = new this.accountDigitValidator(deposit.accountDigit);
+    const validValue = new this.valueValidator(deposit.value);
 
     this.errors = this.errors
       .concat(`${validAccount.errors}${validCpf.errors}${validValue.errors}${validAccountDigit.errors}${validAgency.errors}${validAgencyDigit.errors}`);
 
     const depositData: Partial<Deposit> = {
-      account: validAccount.account,
       cpf: validCpf.cpf,
-      accountDigit: validAccountDigit.accountDigit,
       agency: validAgency.agency,
       agencyDigit: validAgencyDigit.agencyDigit,
+      account: validAccount.account,
+      accountDigit: validAccountDigit.accountDigit,
       value: validValue.value
     };
+
+    console.log(depositData);
 
     return depositData;
   };
