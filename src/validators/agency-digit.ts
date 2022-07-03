@@ -3,8 +3,8 @@ export class AgencyDigitValidator {
   public errors: string;
 
   constructor(agencyDigit: string) {
-    this.agencyDigit = this.validator(agencyDigit);
     this.errors = '';
+    this.agencyDigit = this.validator(agencyDigit);
   };
 
   private validator(agencyDigit: string): string {

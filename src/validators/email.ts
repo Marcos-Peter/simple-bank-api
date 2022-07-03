@@ -1,6 +1,6 @@
 export class EmailValidator {
-  public email: string;
   public errors: string;
+  public email: string;
 
   private regex = /^(\S+)@((?:(?:(?!-)[a-zA-Z0-9-]{1,62}[a-zA-Z0-9])\.)+[a-zA-Z0-9]{2,12})$/;
 

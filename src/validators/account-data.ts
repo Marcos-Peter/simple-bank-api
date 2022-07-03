@@ -2,8 +2,8 @@ import { Account } from '../models';
 import { AccountDigitValidator, AccountValidator, AgencyDigitValidator, AgencyValidator, BalanceValidator, CPFValidator, PasswordValidator } from '.';
 
 export class AccountDataValidator {
-  public account: Partial<Account>;
   public errors: string;
+  public account: Partial<Account>;
 
   private accountValidator = AccountValidator;
   private accountDigitValidator = AccountDigitValidator;

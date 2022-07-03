@@ -1,14 +1,14 @@
-import { PostgresDB } from ".";
+import { config } from "../../../config";
 import { Deposit } from "../../../models";
 import dotenv from 'dotenv';
-
+import { PostgresDB } from ".";
+import { v4 } from 'uuid';
 dotenv.config();
 const { Client } = require('pg');
-import { v4 } from 'uuid';
 
 export class DepositTable extends PostgresDB {
   public async insert (deposit: Deposit): Promise<Object>{
-    const client = new Client();
+    const client = new Client(config.POSTGRES);
 
     try {
       await client.connect();
@@ -16,14 +16,21 @@ export class DepositTable extends PostgresDB {
       const selectBalanceQuery = `
         SELECT * FROM public.accounts
         WHERE
-          cpf=$1 and
+          userid=$1 and
           agency=$2 and
           agency_digit=$3 and
           account=$4 and
           account_digit=$5
       `;
 
-      const check = await client.query(selectBalanceQuery, [deposit.cpf, deposit.agency, deposit.agencyDigit, deposit.account, deposit.accountDigit]);
+      const check = await client.query(selectBalanceQuery, [
+        deposit.cpf,
+        deposit.agency,
+        deposit.agencyDigit,
+        deposit.account,
+        deposit.accountDigit
+      ]);
+
       let balance = check.rows[0];
       let id = balance.id;
       let atualBalance = parseFloat(balance.balance);
@@ -34,52 +41,47 @@ export class DepositTable extends PostgresDB {
       let newValue = atualBalance + newFee;
 
       if(newValue >= 0){
-        console.log('Entering')
-
-        const insertDepositQuery = `
-          INSERT INTO public.extracts
-            (id, account_id, operation_id, value, created_at)
+        const insertQuery = `
+          INSERT INTO public.operations
+            (id, account, operation, value, description)
           VALUES
-            ( $1, $2, $3, $4, NOW() ) RETURNING id
+            ($1, $2, $3, $4, $5) RETURNING id
         `;
 
-        const result = await client.query(insertDepositQuery, [
+        const result = await client.query(insertQuery, [
           deposit.id,
           id,
           '1',
-          deposit.value
+          deposit.value,
+          'Deposit'
         ]);
 
         console.log(result.rows)
         if (result.rows.length !== 0) {
-          console.log("primeiro ok");
+          console.log("Deposit query success");
         };
 
-        const insertFeeQuery = `
-          INSERT INTO public.extracts
-            (id, account_id, operation_id, value, created_at)
-          VALUES
-            ( $1, $2, $3, $4, NOW() ) RETURNING id
-        `;
-
-        const passFee = String(fee);
         const feeId = v4();
+        const passFee = String(fee);
 
-        const feeResult = await client.query(insertFeeQuery, [
+        console.log(balance);
+
+        const feeResult = await client.query(insertQuery, [
           feeId,
           id,
           '5',
-          passFee
+          parseInt(passFee),
+          'Deposit Fee'
         ]);
 
         if (feeResult.rows.length !== 0){
-          console.log("segundo ok");
+          console.log("Fee query success");
         };
 
         const alterBalance = `
           UPDATE public.accounts SET balance = balance + $1
           WHERE
-            cpf=$2 and
+            userid=$2 and
             agency=$3 and
             agency_digit=$4 and
             account=$5 and
@@ -87,14 +89,19 @@ export class DepositTable extends PostgresDB {
             RETURNING balance
         `;
 
-        const final = await client.query(alterBalance, [
-          newFee,
+        console.log(typeof newFee);
+        const finalBalance = await client.query(alterBalance, [
+          parseInt(newFee),
           deposit.cpf,
           deposit.agency,
           deposit.agencyDigit,
           deposit.account,
           deposit.accountDigit
         ]);
+
+        if (finalBalance.rows.length !== 0){
+          console.log("Balance updated!");
+        };
 
         const data = {
           deposit: {

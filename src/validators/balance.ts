@@ -3,8 +3,8 @@ export class BalanceValidator {
   public errors: string;
 
   public constructor(balance: string) {
-    this.balance = this.validator(balance);
     this.errors = '';
+    this.balance = this.validator(balance);
   };
 
   private validator(balance: string): string {

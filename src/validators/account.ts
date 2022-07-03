@@ -3,8 +3,8 @@ export class AccountValidator {
   public errors: string;
 
   constructor(account: string) {
-    this.account = this.validator(account);
     this.errors = '';
+    this.account = this.validator(account);
   };
 
   private validator(account: string): string {

@@ -3,11 +3,12 @@ export class AccountDigitValidator {
   public errors: string;
 
   constructor(accountDigit: string) {
-    this.accountDigit = this.validator(accountDigit);
     this.errors = '';
+    this.accountDigit = this.validator(accountDigit);
   };
 
   private validator(accountDigit: string): string {
+    console.log(accountDigit);
     if(!accountDigit) {
       this.errors += '[Account Digit]: Account Digit required|';
       return '';

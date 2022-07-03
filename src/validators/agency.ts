@@ -3,8 +3,8 @@ export class AgencyValidator {
   public errors: string;
 
   constructor(agency: string) {
-    this.agency = this.validator(agency);
     this.errors = '';
+    this.agency = this.validator(agency);
   };
 
   private validator(agency: string): string {

@@ -2,8 +2,8 @@ import { AccountDigitValidator, AccountValidator, AgencyDigitValidator, AgencyVa
 import { Extract } from '../models';
 
 export class ExtractDataValidator {
-  public extract: Partial<Extract>;
   public errors: string;
+  public extract: Partial<Extract>;
 
   private accountValidator = AccountValidator;
   private accountDigitValidator = AccountDigitValidator;
